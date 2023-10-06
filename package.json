@@ -1,0 +1,37 @@
+{
+  "name": "proyecto3-",
+  "version": "1.0.0",
+  "description": "Proyecto3 Argentina Programa Backend NodeJS/MYSQL.",
+  "main": "server.js",
+  "scripts": {
+    "cargar-peliculas": "node ./database/cargarPeliculas",
+    "dev": "nodemon ./src/server.js",
+    "start": "node ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Martinez-Marcos/API-Rest-NodeJS-MYSQL.git"
+  },
+  "keywords": [
+    "APIRest",
+    "NodeJS",
+    "MYSQL"
+  ],
+  "author": "Martinez Marcos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Martinez-Marcos/API-Rest-NodeJS-MYSQL/issues"
+  },
+  "homepage": "https://github.com/Martinez-Marcos/API-Rest-NodeJS-MYSQL#readme",
+  "dependencies": {
+    "dotenv": "16.3.1",
+    "express": "4.18.2",
+    "mysql2": "3.6.0",
+    "sequelize": "6.32.1"
+  },
+  "devDependencies": {
+    "eslint": "8.50.0",
+    "nodemon": "3.0.1"
+  }
+}
