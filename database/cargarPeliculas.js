@@ -9,6 +9,7 @@ const { Catalogo, Genero, Categoria, ActorActriz } = require('../src/models');
 
 const fs = require('fs');
 const path = require('path');
+const Temporada = require('../src/models/Temporada');
 
 // Lee el contenido del archivo
 const archivoSQL = path.join(__dirname, 'trailerflix.json');
@@ -19,7 +20,7 @@ function cargarPeliculas() {
   try {
     // Inserta las películas en la base de datos
     peliculas.map(async (pelicula) => {
-      const { categoria, genero, reparto, ...datosPelicula } = pelicula;
+      const { categoria, genero, reparto, temporadas, ...datosPelicula } = pelicula;
 
       // Busca o crea la categoría
       const [CategoriasInstance] = await Categoria.findOrCreate({
@@ -32,14 +33,14 @@ function cargarPeliculas() {
       })));
 
       // Crea la película y asocia la categoría y los géneros
-      const peliculaInstance = await Catalogo.create({
+      const instanciaPelicula = await Catalogo.create({
         ...datosPelicula,
         categoria_id: CategoriasInstance.dataValues.id
       });
 
-      await peliculaInstance.addGeneros(GenerosInstances.map((g) => g[0]));
+      await instanciaPelicula.addGeneros(GenerosInstances.map((g) => g[0]));
 
-      // Reparto (actores y actrices)
+      // Array (actores y actrices)
       const actoresReparto = reparto.split(', ').map((nombreActor) => ({
         nombre_completo: nombreActor,
         es_principal: true
@@ -55,7 +56,22 @@ function cargarPeliculas() {
       }));
 
       // Asocia a los actores y actrices con la película
-      await peliculaInstance.addActores_actrices(ActoresInstances);
+      await instanciaPelicula.addActores_actrices(ActoresInstances);
+
+
+      // Cargar temporadas
+      if (temporadas !== 'N/A' && temporadas) {
+        const temporadaPromises = [];
+        for (let i = 1; i <= temporadas; i++) {
+          const temporadaPromise = Temporada.create({
+            contenido_id: instanciaPelicula.dataValues?.id,
+            nombre_temporada: `Temporada ${i}`,
+            resumen: `Resumen de la temporada ${i}`
+          });
+          temporadaPromises.push(temporadaPromise);
+        }
+        Promise.all(temporadaPromises);
+      }
     });
 
     console.log('Películas cargadas con éxito.');

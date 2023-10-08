@@ -24,10 +24,6 @@ const Catalogo = sequelize.define('catalogo', {
     type: DataTypes.TEXT,
     defaultValue: ''
   },
-  temporadas: {
-    type: DataTypes.STRING,
-    defaultValue: 'N/A'
-  },
   trailer: {
     type: DataTypes.STRING,
     defaultValue: ''

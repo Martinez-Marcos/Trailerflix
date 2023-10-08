@@ -4,9 +4,9 @@ const router = express.Router();
 const { Op } = require('sequelize');
 const { Catalogo, Genero, Categoria, Mostrar } = require('../models');
 
-const cargarTemporadas = require('../helpers/cargarTemporadas');
 const datosNulos = require('../helpers/datosNulos');
 const parsearPeliculas = require('../helpers/parsearPeliculas');
+const Temporada = require('../models/Temporada');
 
 // Endpoint para agregar las peliculas a la base de datos
 
@@ -37,15 +37,18 @@ router.post('/', async (req, res) => {
     await InstanciaDePelicula.addGeneros(GenerosInstances.map((g) => g[0]));
 
     // Crea y asocia las temporadas
-    cargarTemporadas(temporadas, InstanciaDePelicula)
-      .then(async (temporadaPromises) => {
-        try {
-          await Promise.all(temporadaPromises);
-        } catch (error) {
-          throw new Error(error);
-        }
-      })
-      .catch(res.status(500).json({ message: 'Error al cargar las temporadas' }));
+    if (temporadas !== 'N/A' && temporadas) {
+      const temporadaPromises = [];
+      for (let i = 1; i <= temporadas; i++) {
+        const temporadaPromise = Temporada.create({
+          contenido_id: InstanciaDePelicula.dataValues?.id,
+          nombre_temporada: `Temporada ${i}`,
+          resumen: `Resumen de la temporada ${i}`
+        });
+        temporadaPromises.push(temporadaPromise);
+      }
+      Promise.all(temporadaPromises);
+    }
 
     res.status(201).send.json({ message: 'Pelicula cargada con exito' });
   } catch (error) {
@@ -58,7 +61,7 @@ router.get('/', async (req, res) => {
   try {
     const catalogo = await Mostrar.findAll();
     const catalogoParseado = parsearPeliculas(catalogo);
-    res.status(200).json(catalogo);
+    res.status(200).json(catalogoParseado);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al obtener el catálogo.' });
