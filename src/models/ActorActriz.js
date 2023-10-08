@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../conection');
 
 
-const actor_actriz = sequelize.define('actores_actrizes', {
+const actor_actriz = sequelize.define('actores_actrices', {
   nombre_completo: {
     type: DataTypes.STRING,
     allowNull: false

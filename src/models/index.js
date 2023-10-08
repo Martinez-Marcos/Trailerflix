@@ -20,20 +20,21 @@ Catalogo.belongsTo(Categoria, {
 });
 
 // Relación many-to-many entre ActorActriz y Catalogo
-Catalogo.belongsToMany(ActorActriz, {
-  through: 'catalogos_actores',
-  foreignKey: 'catalogo_id',
-  otherKey: 'actor_actriz_id',
-  timestamps: false,
-  freezeTableName: true
-});
 ActorActriz.belongsToMany(Catalogo, {
   through: 'catalogos_actores',
   timestamps: false,
   foreignKey: 'actor_actriz_id',
-  otherKey: 'catalogo_id',
+  otherKey: 'contenido_id',
   freezeTableName: true
 });
+Catalogo.belongsToMany(ActorActriz, {
+  through: 'catalogos_actores',
+  foreignKey: 'contenido_id',
+  otherKey: 'actor_actriz_id',
+  timestamps: false,
+  freezeTableName: true
+});
+
 
 // Relación one-to-many entre Catalogo y Temporadas
 Catalogo.hasMany(Temporada, {
@@ -50,7 +51,7 @@ Temporada.belongsTo(Catalogo, {
 // Relación many-to-many entre Genero y Catalogo
 Catalogo.belongsToMany(Genero, {
   through: 'generos_catalogos',
-  foreignKey: 'catalogo_id',
+  foreignKey: 'contenido_id',
   otherKey: 'genero_id',
   timestamps: false,
   freezeTableName: true
@@ -58,7 +59,7 @@ Catalogo.belongsToMany(Genero, {
 Genero.belongsToMany(Catalogo, {
   through: 'generos_catalogos',
   foreignKey: 'genero_id',
-  otherKey: 'catalogo_id',
+  otherKey: 'contenido_id',
   timestamps: false,
   freezeTableName: true
 });
