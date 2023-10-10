@@ -1,4 +1,6 @@
 const express = require('express');
+const server = express();
+
 const path = require('path');
 
 const dotenv = require('dotenv');
@@ -8,7 +10,6 @@ const sequelize = require('./conection');
 const catalogo = require('./routes/catalogo');
 const categorias = require('./routes/categorias');
 
-const server = express();
 
 // Variables del servidor
 server.set('PORT', process.env.SERVER_PORT || 3016);

@@ -2,84 +2,54 @@ const express = require('express');
 const router = express.Router();
 
 const { Op } = require('sequelize');
-const { Catalogo, Genero, Categoria, Mostrar } = require('../models');
+const crearContenido = require('../controller/crearContenido');
 
 const datosNulos = require('../helpers/datosNulos');
 const parsearPeliculas = require('../helpers/parsearPeliculas');
-const Temporada = require('../models/Temporada');
+const { Mostrar } = require('../models');
 
-// Endpoint para agregar las peliculas a la base de datos
-
-router.post('/', async (req, res) => {
+// Endpoint para agregar pelicula
+router.post('/', (req, res) => {
   const { poster, titulo, genero, resumen, categoria, temporadas, reparto, trailer } = req.body;
 
-  const datosPelicula = { poster, titulo, resumen, trailer };
+  const pelicula = { poster, titulo, genero, resumen, categoria, temporadas, reparto, trailer };
 
-  if (datosNulos({ genero, temporadas, reparto, ...datosPelicula })) res.status(400).json({ error: 'Faltan datos necesarios' });
+  if (datosNulos(pelicula)) res.status(400).json({ error: 'Faltan datos necesarios' });
 
-  try {
-    // Busca o crea la categoría
-    const [InstanciaDeCategorias] = await Categoria.findOrCreate({
-      where: { nombre: categoria }
+  crearContenido(pelicula)
+    .then((cont) => res.status(201).send.json({ message: 'Pelicula cargada con exito', payload: cont }))
+    .catch((error) => {
+      res.status(500).send.json({ message: 'Error al cargar la pelicula', error });
     });
-
-    // Busca o crea los géneros y asócialos a la película
-    const GenerosInstances = await Promise.all(genero.split(',').map((nombreGenero) => Genero.findOrCreate({
-      where: { nombre: nombreGenero }
-    })));
-
-    // Crea la película, asocia la categoría, los géneros
-    const InstanciaDePelicula = await Catalogo.create({
-      ...datosPelicula,
-      categoriaId: InstanciaDeCategorias.dataValues?.id
-    });
-
-    await InstanciaDePelicula.addGeneros(GenerosInstances.map((g) => g[0]));
-
-    // Crea y asocia las temporadas
-    if (temporadas !== 'N/A' && temporadas) {
-      const temporadaPromises = [];
-      for (let i = 1; i <= temporadas; i++) {
-        const temporadaPromise = Temporada.create({
-          contenido_id: InstanciaDePelicula.dataValues?.id,
-          nombre_temporada: `Temporada ${i}`,
-          resumen: `Resumen de la temporada ${i}`
-        });
-        temporadaPromises.push(temporadaPromise);
-      }
-      Promise.all(temporadaPromises);
-    }
-
-    res.status(201).send.json({ message: 'Pelicula cargada con exito' });
-  } catch (error) {
-    res.status(500).send.json({ message: 'Error al cargar la pelicula' });
-  }
 });
 
 // Endpoint para obtener todo el catálogo
 router.get('/', async (req, res) => {
   try {
     const catalogo = await Mostrar.findAll();
+    if (!catalogo || catalogo === null) return res.status(404).json({ message: 'No hay contenidos' });
+
     const catalogoParseado = parsearPeliculas(catalogo);
     res.status(200).json(catalogoParseado);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el catálogo.' });
+    res.status(500).json({ message: 'Error al obtener el catálogo.', error });
   }
 });
 
 // Endpoint para filtrar por ID
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
+  if (isNaN(Number(id))) return res.status(300).json({ message: 'el id debe ser un numero' });
+
   try {
     const contenido = await Mostrar.findByPk(id);
-    if (!contenido) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese id' });
-    const contenidoParseado = parsearPeliculas(contenido);
 
+    if (!contenido || contenido === null) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese id' });
+
+    const contenidoParseado = parsearPeliculas(contenido);
     res.status(200).json(contenidoParseado);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el contenido.' });
+    res.status(500).json({ message: 'Error al obtener el contenido.', error });
   }
 });
 
@@ -94,14 +64,16 @@ router.get('/nombre/:nombre', async (req, res) => {
         }
       }
     });
+    console.log(contenido.toString());
 
-    if (!contenido) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese nombre' });
+    if (!contenido.toString() || contenido === null) {
+      return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese nombre' });
+    }
+
     const contenidoParseado = parsearPeliculas(contenido);
-
     res.status(200).json(contenidoParseado);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el contenido.' });
+    res.status(500).json({ message: 'Error al obtener el contenido.', error });
   }
 });
 
@@ -110,21 +82,19 @@ router.get('/genero/:genero', async (req, res) => {
   const { genero } = req.params;
   try {
     const contenido = await Mostrar.findAll({
-      include: [
-        {
-          model: Genero,
-          where: { nombre: genero }
+      where: {
+        generos: {
+          [Op.like]: `%${genero}%`
         }
-      ]
+      }
     });
 
-    if (!contenido) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese genero' });
-    const contenidoParseado = parsearPeliculas(contenido);
+    if (!contenido.toString() || contenido === null) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese genero' });
 
+    const contenidoParseado = parsearPeliculas(contenido);
     res.status(200).json(contenidoParseado);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el contenido.' });
+    res.status(500).json({ message: 'Error al obtener el contenido.', error });
   }
 });
 
@@ -133,21 +103,17 @@ router.get('/categoria/:categoria', async (req, res) => {
   const { categoria } = req.params;
   try {
     const contenido = await Mostrar.findAll({
-      include: [
-        {
-          model: Categoria,
-          where: { nombre: categoria }
-        }
-      ]
+      where: { categoria }
     });
 
-    if (!contenido) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con esa categoría' });
-    const contenidoParseado = parsearPeliculas(contenido);
+    // eslint-disable-next-line max-len
+    if (!contenido.toString() || contenido === null) return res.status(404).json({ message: 'No se ah encontrado ningun contenido con esa categoría' });
 
+    const contenidoParseado = parsearPeliculas(contenido);
     res.status(200).json(contenidoParseado);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el contenido.' });
+    console.log(error);
+    res.status(500).json({ message: 'Error al buscar un contenido.', error });
   }
 });
 

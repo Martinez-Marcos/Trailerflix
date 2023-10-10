@@ -64,4 +64,4 @@ Genero.belongsToMany(Catalogo, {
   freezeTableName: true
 });
 
-module.exports = { Genero, Categoria, ActorActriz, Catalogo, Mostrar };
+module.exports = { Genero, Categoria, ActorActriz, Catalogo, Mostrar, Temporada };
