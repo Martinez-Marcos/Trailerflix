@@ -4,7 +4,7 @@ const parsearPelicula = (pelicula) => {
 
   const { id, poster: posterIncompleto, titulo, generos, resumen, categoria, temporadas, reparto, trailer } = pelicula;
 
-  const poster = URLimagenes.concat(posterIncompleto);
+  const poster = URLimagenes.concat(posterIncompleto.slice(0, -4));
 
   const peliculaParseada = { id, poster, titulo, categoria, generos, resumen, temporadas, reparto, trailer };
   return peliculaParseada;
