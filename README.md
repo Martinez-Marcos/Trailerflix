@@ -12,15 +12,14 @@
 
 ## Introducción
 
-  **TrailerFlix** es una pequeña solución informática que sirve registrar y recuperar los datos de contenidos visuales como por ejemplo peliculas.
-  La misma, fue diseñada y construida sobre una arquitectura API REST, la cual está desarrollada bajo las restricciones y recomendaciones de REST, además, implementa buenas prácticas de programación. 
+  **TrailerFlix** es una pequeña solución informática que permite registrar y recuperar datos de contenidos visuales, como películas, series, etc. Esta aplicación ha sido diseñada y construida siguiendo una arquitectura de API REST, desarrollada bajo las restricciones y recomendaciones de REST, y haciendo uso de buenas prácticas de programación.
   Modelo relacional de SQL:
 
   ![ModeloDeMiDD.BB](./public/EsquemaBasedeDatos.png){width=100px}
 
 ## Especificaciones
 
-  Especificaciones y requisitos necesarios para utilizar la API. Esto puede incluir:
+  Especificaciones y requisitos necesarios para utilizar la API:
 
   - Especificaciones:
     - "Autor": "Martinez Marcos"
@@ -36,10 +35,11 @@
 ## Instalación
   
   #### ⚠ Importante¡¡¡
-    Recuerde que esto es para windows. En caso de usar otro sistema operativo utilice la manera correcta para su sistema.
+    Recuerda que estas instrucciones son para Windows. Si estás utilizando otro sistema operativo, asegúrate de seguir los procedimientos adecuados para tu sistema.
 
 
   Pasos para la instalación, ejecución de la API y preparación de la base de datos.
+  
   Clonar el repositorio e instalar dependencias.
     ***Recuerde que todo esto es para windows.***, en caso de usar otro sistema operativo utilice la manera correcta para el sistema.
 
@@ -54,7 +54,7 @@
 ## Configuración
 
   #### Variables de entorno:
-  Se debe hacer una copia del archivo `.env.dist` y renombrarlo como `.env`. Con respecto a su contenido, es necesario asignar los valores a correspondientes a las variables:
+  Debes hacer una copia del archivo .env.dist y renombrarlo como .env. En cuanto a su contenido, necesitas asignar valores a las siguientes variables:
 
   ``` JavaScript
   SERVER_PORT=3005
@@ -65,8 +65,7 @@
   ```
   #### Creación de base de datos:
 
-  Se debe ejecutar el archivo SQL `trailerflix.sql` que se estará a disposición dentro de la carpeta `database` en el proyecto. 
-  Proceder a su ejecución de manera completa.
+  Debes ejecutar el archivo SQL trailerflix.sql que se encuentra en la carpeta database del proyecto. Realiza la ejecución completa con los siguientes comandos:
 
   ```shell
   #Ingresar a la carpeta y ejecutar el archivo.
@@ -76,11 +75,12 @@
 
   ```
 
-  Solicitará la contraseña de la base de datos, una vez ingresada ejecutará el archivo y creara la base de datos.
-  ***También podria ejecutarlo con MySQL workbench.***
+  Solicitará la contraseña de la base de datos, y una vez ingresada, ejecutará el archivo y creará la base de datos. 
+  ***También puedes ejecutarlo con MySQL Workbench.***
 
-  #### Cargar la base de datos:
-  Una vez creada la base de datos en el paso anterior, ahora si podrá proceder a la carga de la misma. Al ejecutar el siguiente script tomará los datos del archivo trailerflix.json para la carga. 
+  #### Cargar de la base de datos:
+  Una vez creada la base de datos en el paso anterior, puedes proceder a cargar los datos. 
+  Ejecuta el siguiente script para cargar los datos desde el archivo trailerflix.json:
 
   ```shell
     #cargar base de datos
@@ -88,29 +88,29 @@
   ```
 
  #### Errores y formatos
-    La comprobación de errores y formatos se ejecuta por medio del comando `npm run eslint`. se hace por medio de Eslint. Para visualizar los errores en tiempo de escritura, se debe tener instalada la extensión de `Eslint` en Visual Studio Code.
+    La comprobación de errores y formato se realiza mediante el comando npm run eslint, utilizando Eslint. Para visualizar los errores en tiempo de escritura, debes tener instalada la extensión de Eslint en Visual Studio Code.
 
 ## Recursos
 
   ### Módulo Categoria
 
-  Este módulo permite leer el registro de un categorias disponible.
+  Este módulo permite leer el registro de categorías disponibles.
 
   #### Métodos HTTP
   | Tipo     | URI                                     | Descripción |
   |----------|-----------------------------------------|-------------|
-  | GET      |  http://localhost:3001/categoria        | Obtiene información sobre todas las categorias existentes|
+  | GET      |  http://localhost:3001/categoria        | Obtiene información sobre todas las categorías existentes |
 
   ### Módulo Catalogo
 
-  Este módulo permite la gestión del catalogo de contenidos. El mismo, ofrece funciones para agregar o leer un contenido. Además, permite visualizar contenidos filtrados por diferentes criterios de búsqueda.
+  Este módulo permite la gestión del catálogo de contenidos. Ofrece funciones para agregar o leer un contenido y permite visualizar contenidos filtrados por diferentes criterios de búsqueda.
 
   #### Métodos HTTP
   | Tipo     | URI                                            | Descripción |
   |----------|------------------------------------------------|-------------|
   | POST     |  http://localhost:3001/catalogo    | Crea un registro con los datos que recibe |
   | GET      |  http://localhost:3001/catalogo    | Obtiene todos los registro |
-  | GET      |  http://localhost:3001/catalogo/:id  | Obtiene un registro en específico |
+  | GET      |  http://localhost:3001/catalogo/:id  | Obtiene un registro específico |
   | GET      | http://localhost:3001/catalogo/nombre/:nombre | Obtiene los registro que contengan un nombre específico  |
   | GET      | http://127.0.0.1:3005/catalogo/genero/:genero | Obtiene los registro que contengan un genero específico |
   | GET      | http://127.0.0.1:3005/catalogo/categoria/:categoria| Obtiene los registro que contengan una categoría específica |
