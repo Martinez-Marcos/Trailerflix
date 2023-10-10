@@ -12,7 +12,7 @@ const categorias = require('./routes/categorias');
 
 
 // Variables del servidor
-server.set('PORT', process.env.SERVER_PORT || 3016);
+server.set('PORT', process.env.SERVER_PORT || 3001);
 server.set('HOST', process.env.SERVER_HOST || 'localhost');
 
 // Middlewares
