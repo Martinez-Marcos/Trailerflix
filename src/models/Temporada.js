@@ -2,13 +2,17 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../conection');
 
 const Temporada = sequelize.define('Temporadas', {
-  nombre_temporada: {
-    type: DataTypes.TINYINT,
+  titulo: {
+    type: DataTypes.STRING,
     allowNull: false
   },
   resumen: {
     type: DataTypes.STRING,
     defaultValue: ''
+  },
+  contenido_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 }, {
   freezeTableName: true,

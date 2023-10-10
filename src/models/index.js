@@ -50,14 +50,14 @@ Temporada.belongsTo(Catalogo, {
 
 // Relación many-to-many entre Genero y Catalogo
 Catalogo.belongsToMany(Genero, {
-  through: 'generos_catalogos',
+  through: 'catalogos_generos',
   foreignKey: 'contenido_id',
   otherKey: 'genero_id',
   timestamps: false,
   freezeTableName: true
 });
 Genero.belongsToMany(Catalogo, {
-  through: 'generos_catalogos',
+  through: 'catalogos_generos',
   foreignKey: 'genero_id',
   otherKey: 'contenido_id',
   timestamps: false,

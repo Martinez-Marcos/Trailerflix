@@ -29,7 +29,7 @@ function instanciarReparto(actorActriz) {
 function instanciarTemporada(i, instanciaPelicula) {
   return Temporada.create({
     contenido_id: instanciaPelicula.dataValues?.id,
-    nombre_temporada: `Temporada ${i}`,
+    titulo: `Temporada ${i}`,
     resumen: `Resumen de la temporada ${i}`
   });
 }
