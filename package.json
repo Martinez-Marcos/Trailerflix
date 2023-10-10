@@ -4,10 +4,9 @@
   "description": "Proyecto3 Argentina Programa Backend NodeJS/MYSQL.",
   "main": "server.js",
   "scripts": {
-    "cargar-peliculas": "node ./database/cargarPeliculas",
+    "cargar": "node ./database/cargar",
     "dev": "nodemon ./src/server.js",
-    "start": "node ./src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/server.js"
   },
   "repository": {
     "type": "git",
