@@ -54,18 +54,19 @@
 ## Configuración
 
   #### Variables de entorno:
-  Debes hacer una copia del archivo .env.dist y renombrarlo como .env. En cuanto a su contenido, necesitas asignar valores a las siguientes variables:
+  Debe hacer una copia del archivo .env.dist y renombrarlo como .env. En cuanto a su contenido, necesitas asignar valores a las siguientes variables:
 
   ``` JavaScript
-  SERVER_PORT=3005
-  SERVER_HOST=127.0.0.1
+  SERVER_PORT=3001
+  SERVER_HOST=localhost
 
-  DATABASE_URL=tu-cadena-de-conexion
-  DATABASE_NAME=trilerflix
+  DATABASE=trailerflix
+  DBUSER=TU-USUARIO-DE-MYSQL
+  PASSWORD=TU-PASSWORD-DE-MYSQL
   ```
   #### Creación de base de datos:
 
-  Debes ejecutar el archivo SQL trailerflix.sql que se encuentra en la carpeta database del proyecto. Realiza la ejecución completa con los siguientes comandos:
+  Debe ejecutar el archivo SQL trailerflix.sql que se encuentra en la carpeta database del proyecto. Realiza la ejecución completa con los siguientes comandos:
 
   ```shell
   #Ingresar a la carpeta y ejecutar el archivo.
@@ -73,14 +74,16 @@
   cd database
   cat trilerflix.sql | mysql -u usuario -p
 
+  #Reemplaze "usuario" por su nombre de usuario de MySQL
+
   ```
 
   Solicitará la contraseña de la base de datos, y una vez ingresada, ejecutará el archivo y creará la base de datos. 
-  ***También puedes ejecutarlo con MySQL Workbench.***
+  ***También puede ejecutarlo desde MySQL Workbench si lo prefiere.***
 
-  #### Cargar de la base de datos:
-  Una vez creada la base de datos en el paso anterior, puedes proceder a cargar los datos. 
-  Ejecuta el siguiente script para cargar los datos desde el archivo trailerflix.json:
+  #### Carga de la base de datos:
+  Una vez creada la base de datos en el paso anterior, puede proceder a cargar los datos. 
+  Ejecute el siguiente script para cargar los datos desde el archivo trailerflix.json:
 
   ```shell
     #cargar base de datos
@@ -112,8 +115,8 @@
   | GET      |  http://localhost:3001/catalogo    | Obtiene todos los registro |
   | GET      |  http://localhost:3001/catalogo/:id  | Obtiene un registro específico |
   | GET      | http://localhost:3001/catalogo/nombre/:nombre | Obtiene los registro que contengan un nombre específico  |
-  | GET      | http://127.0.0.1:3005/catalogo/genero/:genero | Obtiene los registro que contengan un genero específico |
-  | GET      | http://127.0.0.1:3005/catalogo/categoria/:categoria| Obtiene los registro que contengan una categoría específica |
+  | GET      | http://127.0.0.1:3001/catalogo/genero/:genero | Obtiene los registro que contengan un genero específico |
+  | GET      | http://127.0.0.1:3001/catalogo/categoria/:categoria| Obtiene los registro que contengan una categoría específica |
 
 
 ## Uso
@@ -257,7 +260,7 @@
 
   #### Métodos GET:
 
-  - URI: http://127.0.0.1:3005/catalogo/genero/:genero
+  - URI: http://127.0.0.1:3001/catalogo/genero/:genero
 
   - Parámetro obligatorio de tipo URL:
 
@@ -298,7 +301,7 @@
 
   #### Métodos GET:
 
-  - URI: http://127.0.0.1:3005/catalogo/categoria/:categoria
+  - URI: http://127.0.0.1:3001/catalogo/categoria/:categoria
 
   - Parámetro obligatorio de tipo URL:
 
@@ -335,5 +338,3 @@
   - Código HTTP: **500** *message: Error al obtener el contenido., error*
 
   - Nota: *La respuesta mostrará tantos contenidos,con ese formato, que cumplan con ese criterio.*
-
-
