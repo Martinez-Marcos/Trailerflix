@@ -99,7 +99,7 @@
   #### Métodos HTTP
   | Tipo     | URI                                     | Descripción |
   |----------|-----------------------------------------|-------------|
-  | GET      |  http://localhost:3001/categoria        | Obtiene información sobre todas las categorías existentes |
+  | GET      |  http://localhost:3001/categorias        | Obtiene información sobre todas las categorías existentes |
 
   ### Módulo Catalogo
 
@@ -121,7 +121,7 @@
 ### Modulo categoría. 
 
   #### Método GET:
-  - URI: http://localhost:3001/categoria
+  - URI: http://localhost:3001/categorias
 
   - Response:
       ``` json
