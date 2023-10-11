@@ -8,14 +8,13 @@
   - [Configuración](#configuración)
   - [Recursos](#recursos)
   - [Uso](#uso)
-  - [Ejemplos](#ejemplos)
 
 ## Introducción
 
   **TrailerFlix** es una pequeña solución informática que permite registrar y recuperar datos de contenidos visuales, como películas, series, etc. Esta aplicación ha sido diseñada y construida siguiendo una arquitectura de API REST, desarrollada bajo las restricciones y recomendaciones de REST, y haciendo uso de buenas prácticas de programación.
   Modelo relacional de SQL:
 
-  ![ModeloDeMiDD.BB](./public/EsquemaBasedeDatos.png){width=100px}
+  ![ModeloDeMiDD.BB](./public/EsquemaBasedeDatos.png)
 
 ## Especificaciones
 
@@ -31,6 +30,18 @@
   - Requerimientos :
     - "Node JS": "18.17.0"
     - "MySQL": "8.0.30"
+  - Scripts:
+    - "cargar": "Carga los contenidos del JSON en la DDBB",
+    - "dev": "Inicia el servidor con nodemon",
+     - "start": "Inicia el servidor con node"
+  - Dependencias:
+    - "dotenv": "16.3.1",
+    - "express": "4.18.2",
+    - "mysql2": "3.6.0",
+    - "sequelize": "6.32.1"
+  - Dependencies de desarrollo:
+    - "eslint": "8.50.0",
+    - "nodemon": "3.0.1"
 
 ## Instalación
   
@@ -95,7 +106,7 @@
 
 ## Recursos
 
-  ### Módulo Categoria
+  ### Módulo Categoría
 
   Este módulo permite leer el registro de categorías disponibles.
 
@@ -104,7 +115,7 @@
   |----------|-----------------------------------------|-------------|
   | GET      |  http://localhost:3001/categorias        | Obtiene información sobre todas las categorías existentes |
 
-  ### Módulo Catalogo
+  ### Módulo Catálogo
 
   Este módulo permite la gestión del catálogo de contenidos. Ofrece funciones para agregar o leer un contenido y permite visualizar contenidos filtrados por diferentes criterios de búsqueda.
 
@@ -165,7 +176,7 @@
     - Código HTTP: **400** *message: Faltan datos necesarios*
     - Código HTTP: **500** *message: Error al cargar la pelicula, error*
 
-  #### Métodos GET:
+  #### Método GET:
 
   - URI: http://localhost:3001/catalogo
 
@@ -197,9 +208,9 @@
   - Código HTTP: **400** *message: No hay contenidos*
   - Código HTTP: **500** *message: Error al obtener el catálogo., error*
     
-  - Nota: *La respuesta mostrará tantos contenidos,con ese formato, como haya en la DDBB.*
+  - Nota: *La respuesta mostrará tantos contenidos como haya en la DDBB.*
 
-  #### Métodos GET:
+  #### Método GET:
 
   - URI: http://localhost:3001/catalogo/:id 
 
@@ -228,7 +239,7 @@
   - Código HTTP: **400** *message: No se ah encontrado ningun contenido con ese id*
   - Código HTTP: **500** *message: Error al obtener el contenido., error*
 
-  #### Métodos GET:
+  #### Método GET:
 
   - URI: http://localhost:3001//catalogo/nombre/:nombre
 
@@ -256,9 +267,9 @@
   - Código HTTP: **400** *message: No se ah encontrado ningun contenido con ese nombre*
   - Código HTTP: **500** *message: Error al obtener el contenido., error*
 
-  - Nota: *La respuesta mostrará tantos contenidos,con ese formato, que cumplan con ese criterio.*
+  - Nota: *La respuesta mostrará todos los contenidos que cumplan con ese criterio.*
 
-  #### Métodos GET:
+  #### Método GET:
 
   - URI: http://127.0.0.1:3001/catalogo/genero/:genero
 
@@ -297,9 +308,9 @@
   - Código HTTP: **400** *message: No se ah encontrado ningun contenido con ese genero*
   - Código HTTP: **500** *message: Error al obtener el contenido., error*
 
-  - Nota: *La respuesta mostrará tantos contenidos,con ese formato, que cumplan con ese criterio.*
+  - Nota: *La respuesta mostrará todos los contenidos que cumplan con ese criterio.*
 
-  #### Métodos GET:
+  #### Método GET:
 
   - URI: http://127.0.0.1:3001/catalogo/categoria/:categoria
 
@@ -337,4 +348,4 @@
   - Código HTTP: **400** *message: No se ah encontrado ningun contenido con esa categoría*
   - Código HTTP: **500** *message: Error al obtener el contenido., error*
 
-  - Nota: *La respuesta mostrará tantos contenidos,con ese formato, que cumplan con ese criterio.*
+  - Nota: *La respuesta mostrará todos los contenidos que cumplan con ese criterio.*
