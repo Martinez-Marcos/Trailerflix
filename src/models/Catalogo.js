@@ -6,7 +6,8 @@ const Catalogo = sequelize.define('catalogo', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    autoIncrement: true
   },
   poster: {
     type: DataTypes.STRING,

@@ -17,6 +17,7 @@ server.set('HOST', process.env.SERVER_HOST || 'localhost');
 
 // Middlewares
 server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
 
 // Rutas
 server.use('/catalogo', catalogo);
