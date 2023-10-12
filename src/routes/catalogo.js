@@ -14,12 +14,12 @@ router.post('/', (req, res) => {
 
   const pelicula = { poster, titulo, genero, resumen, categoria, temporadas, reparto, trailer };
 
-  if (datosNulos(pelicula)) res.status(400).json({ message: 'Faltan datos necesarios' });
+  if (datosNulos(pelicula)) return res.status(400).json({ message: 'Faltan datos necesarios' });
 
   crearContenido(pelicula)
-    .then((constenido) => res.status(201).send.json({ message: 'Contenido creado con exito', payload: constenido }))
+    .then((contenido) => res.status(201).json({ message: 'Contenido creado con exito', payload: contenido }))
     .catch((error) => {
-      res.status(500).send.json({ message: 'Error al cargar la pelicula', error });
+      res.status(500).json({ message: 'Error al cargar la pelicula', error });
     });
 });
 
@@ -64,7 +64,6 @@ router.get('/nombre/:nombre', async (req, res) => {
         }
       }
     });
-    console.log(contenido.toString());
 
     if (!contenido.toString() || contenido === null) {
       return res.status(404).json({ message: 'No se ah encontrado ningun contenido con ese nombre' });
