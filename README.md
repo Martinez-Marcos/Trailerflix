@@ -92,9 +92,21 @@
   Solicitará la contraseña de la base de datos, y una vez ingresada, ejecutará el archivo y creará la base de datos. 
   ***También puede ejecutarlo desde MySQL Workbench si lo prefiere.***
 
+  #### Iniciar servidor:
+  Una vez creada la base de datos en el paso anterior, puede proceder a iniciar el servidor. 
+  Ejecute alguno de los comandos dependiendo de como desea iniciarlo:
+
+  ```shell
+    #Iniciar con nodemon
+    npm run dev
+
+    #Iniciar con node. Importante: No habilita la escucha de cambios del servidor
+    npm run start
+  ```
+
   #### Carga de la base de datos:
-  Una vez creada la base de datos en el paso anterior, puede proceder a cargar los datos. 
-  Ejecute el siguiente script para cargar los datos desde el archivo trailerflix.json:
+  Ahora que ya esta iniciado el servidor, puede proceder a cargar los datos. 
+  Ejecute el siguiente script, en una terminal secundaria sin cerrar la terminal principal que mantiene el servidor, para cargar los datos del archivo `trailerflix.json`:
 
   ```shell
     #cargar base de datos
